@@ -61,14 +61,14 @@ const TeamGrouping: React.FC<Props> = ({ participants }) => {
         model: 'gemini-3-flash-preview',
         contents: `Generate ${finalGroups.length} creative, professional team names for a corporate event in Traditional Chinese. Return ONLY a comma-separated list. Theme: Technology, Energy and Collaboration.`,
       });
-      
+
       const aiNames = response.text?.split(',').map(n => n.trim());
       if (aiNames && aiNames.length >= finalGroups.length) {
         finalGroups.forEach((g, i) => {
           g.name = aiNames[i];
         });
       }
-    } catch (err) {
+    } catch {
       console.warn("Using default team names.");
     }
 
@@ -80,7 +80,7 @@ const TeamGrouping: React.FC<Props> = ({ participants }) => {
     const text = groups.map(g => {
       return `【${g.name}】\n${g.members.map(m => ` • ${m.name}`).join('\n')}`;
     }).join('\n\n');
-    
+
     navigator.clipboard.writeText(text);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -89,7 +89,7 @@ const TeamGrouping: React.FC<Props> = ({ participants }) => {
   const downloadCSV = () => {
     let csvContent = "data:text/csv;charset=utf-8,\uFEFF"; // 加入 BOM 確保 Excel 開啟不亂碼
     csvContent += "組別名稱,成員姓名\n";
-    
+
     groups.forEach(group => {
       group.members.forEach(member => {
         csvContent += `"${group.name}","${member.name}"\n`;
@@ -111,44 +111,44 @@ const TeamGrouping: React.FC<Props> = ({ participants }) => {
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-10">
           <div className="space-y-2">
             <div className="flex items-center gap-3">
-               <div className="bg-indigo-100 p-2 rounded-xl">
-                  <Sparkles className="w-6 h-6 text-indigo-600" />
-               </div>
-               <h2 className="text-2xl font-black text-slate-900 tracking-tight">自動分組神器</h2>
+              <div className="bg-indigo-100 p-2 rounded-xl">
+                <Sparkles className="w-6 h-6 text-indigo-600" />
+              </div>
+              <h2 className="text-2xl font-black text-slate-900 tracking-tight">自動分組神器</h2>
             </div>
             <p className="text-slate-500 text-sm font-medium">智慧型成員分配，自動生成創意組名。</p>
           </div>
 
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-6">
             <div className="flex bg-slate-100 p-1.5 rounded-2xl border border-slate-200 shadow-inner">
-               <button 
-                 onClick={() => setMode('size')}
-                 className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold transition-all ${mode === 'size' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-               >
-                 <Users className="w-4 h-4" />
-                 依每組人數
-               </button>
-               <button 
-                 onClick={() => setMode('count')}
-                 className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold transition-all ${mode === 'count' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
-               >
-                 <Hash className="w-4 h-4" />
-                 依總組數
-               </button>
+              <button
+                onClick={() => setMode('size')}
+                className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold transition-all ${mode === 'size' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+              >
+                <Users className="w-4 h-4" />
+                依每組人數
+              </button>
+              <button
+                onClick={() => setMode('count')}
+                className={`flex items-center gap-2 px-5 py-2 rounded-xl text-xs font-bold transition-all ${mode === 'count' ? 'bg-white text-indigo-600 shadow-sm' : 'text-slate-400 hover:text-slate-600'}`}
+              >
+                <Hash className="w-4 h-4" />
+                依總組數
+              </button>
             </div>
 
             <div className="flex items-center gap-4 bg-slate-50 px-5 py-2.5 rounded-2xl border border-slate-200">
               <span className="text-sm font-black text-slate-600 uppercase tracking-widest">{mode === 'size' ? '每組幾人' : '共分幾組'}</span>
               <div className="flex items-center gap-4">
-                <button 
+                <button
                   onClick={() => mode === 'size' ? setGroupSize(Math.max(1, groupSize - 1)) : setNumGroupsTarget(Math.max(1, numGroupsTarget - 1))}
                   className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-100 text-xl font-bold transition-all shadow-sm"
                 >
                   -
                 </button>
                 <span className="w-8 text-center text-xl font-black text-indigo-600">{mode === 'size' ? groupSize : numGroupsTarget}</span>
-                <button 
-                   onClick={() => mode === 'size' ? setGroupSize(Math.min(participants.length, groupSize + 1)) : setNumGroupsTarget(Math.min(participants.length, numGroupsTarget + 1))}
+                <button
+                  onClick={() => mode === 'size' ? setGroupSize(Math.min(participants.length, groupSize + 1)) : setNumGroupsTarget(Math.min(participants.length, numGroupsTarget + 1))}
                   className="w-10 h-10 flex items-center justify-center bg-white border border-slate-200 rounded-xl hover:bg-slate-100 text-xl font-bold transition-all shadow-sm"
                 >
                   +
@@ -172,17 +172,17 @@ const TeamGrouping: React.FC<Props> = ({ participants }) => {
         <div className="space-y-8">
           <div className="flex items-center justify-between px-2">
             <h3 className="text-xl font-black text-slate-900 flex items-center gap-3 italic">
-               分組結果 <span className="bg-slate-200 text-slate-600 not-italic text-xs px-2 py-0.5 rounded-lg">共 {groups.length} 組</span>
+              分組結果 <span className="bg-slate-200 text-slate-600 not-italic text-xs px-2 py-0.5 rounded-lg">共 {groups.length} 組</span>
             </h3>
             <div className="flex items-center gap-3">
-              <button 
+              <button
                 onClick={copyToClipboard}
                 className="flex items-center gap-2 px-4 py-2 bg-white text-sm font-bold text-slate-500 border border-slate-200 rounded-xl hover:text-indigo-600 hover:border-indigo-200 transition-all shadow-sm"
               >
                 {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                 {copied ? '已複製!' : '複製文字'}
               </button>
-              <button 
+              <button
                 onClick={downloadCSV}
                 className="flex items-center gap-2 px-4 py-2 bg-indigo-600 text-sm font-bold text-white rounded-xl hover:bg-indigo-700 transition-all shadow-md"
               >
@@ -194,8 +194,8 @@ const TeamGrouping: React.FC<Props> = ({ participants }) => {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {groups.map((group, idx) => (
-              <div 
-                key={group.id} 
+              <div
+                key={group.id}
                 className="bg-white rounded-[2rem] border-2 border-slate-100 shadow-sm hover:border-indigo-400 hover:shadow-xl hover:shadow-indigo-100 transition-all group overflow-hidden animate-in zoom-in-95 duration-500 flex flex-col"
                 style={{ animationDelay: `${idx * 60}ms` }}
               >
@@ -226,13 +226,13 @@ const TeamGrouping: React.FC<Props> = ({ participants }) => {
 
       {groups.length === 0 && !isGenerating && (
         <div className="py-24 flex flex-col items-center justify-center text-slate-300 gap-6">
-           <div className="bg-white p-10 rounded-full shadow-inner border border-slate-100">
-              <LayoutGrid className="w-16 h-16 opacity-20" />
-           </div>
-           <div className="text-center">
-             <p className="font-black text-xl text-slate-400 italic">準備好要分組了嗎？</p>
-             <p className="text-sm font-medium mt-1">設定好條件後點擊「開始分組」即可查看結果。</p>
-           </div>
+          <div className="bg-white p-10 rounded-full shadow-inner border border-slate-100">
+            <LayoutGrid className="w-16 h-16 opacity-20" />
+          </div>
+          <div className="text-center">
+            <p className="font-black text-xl text-slate-400 italic">準備好要分組了嗎？</p>
+            <p className="text-sm font-medium mt-1">設定好條件後點擊「開始分組」即可查看結果。</p>
+          </div>
         </div>
       )}
     </div>

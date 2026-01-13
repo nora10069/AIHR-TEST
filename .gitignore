@@ -7,6 +7,17 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+# Privacy & Secrets
+.env
+.env.*
+!.env.example
+
+# Testing & Coverage
+coverage/
+jest.config.js
+jest.setup.js
+
+
 node_modules
 dist
 dist-ssr
