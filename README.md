@@ -42,3 +42,14 @@ This project is configured to deploy automatically to **GitHub Pages** via GitHu
 
 ### Workflow
 The deployment workflow is defined in `.github/workflows/deploy.yml`. It triggers on every push to the `main` or `master` branch.
+
+## Troubleshooting
+
+### Deployment Error: "HttpError: Not Found" (404)
+If you see this error in your GitHub Actions logs: `Failed to create deployment (status: 404)`, it means GitHub Pages is not enabled.
+
+**Fix:**
+1.  Go to **Settings** > **Pages** in your GitHub repository.
+2.  Under **Build and deployment**, ensure **Source** is set to **GitHub Actions** (NOT "Deploy from a branch").
+3.  If it was already set, try toggling it: Select "Deploy from a branch", then switch back to "GitHub Actions".
+4.  Re-run the failed workflow.
